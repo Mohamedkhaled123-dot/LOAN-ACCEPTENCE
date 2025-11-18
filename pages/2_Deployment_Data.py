@@ -82,8 +82,8 @@ st.markdown("""
 # CHECK FOR DATA & LOAD MODEL
 # ===============================
 try:
-    model = joblib.load("loan_approval_model.pkl")
-    scaler = joblib.load("scaler.pkl")
+    model = joblib.load("loan_approval_pipeline.pkl")
+    
     model_loaded = True
 except:
     model_loaded = False
@@ -105,9 +105,9 @@ if pred_mode == "Single Prediction":
     
     col1, col2 = st.columns(2)
     with col1:
-        name = st.text_input("Full Name", placeholder="John Doe")
+        name = st.text_input("Full Name", placeholder="My name")
     with col2:
-        city = st.text_input("City", placeholder="New York")
+        city = st.text_input("City", placeholder="Cairo")
     
     st.markdown("#### 💰 Financial Information")
     
@@ -229,11 +229,11 @@ if pred_mode == "Single Prediction":
         ]]
         
         # Scaling
-        scaled_data = scaler.transform(df_final)
+        #scaled_data = scaler.transform(df_final)
         
         # Predict
-        prediction = model.predict(scaled_data)[0]
-        probability = model.predict_proba(scaled_data)[0]
+        prediction = model.predict(df_final)[0]
+        probability = model.predict_proba(df_final)[0]
         
         # ===============================
         # SHOW RESULTS
@@ -362,9 +362,9 @@ else:
                 ]]
                 
                 # Predict
-                scaled_data = scaler.transform(df_batch_final)
-                predictions = model.predict(scaled_data)
-                probabilities = model.predict_proba(scaled_data)
+                
+                predictions = model.predict(df_batch_final)
+                probabilities = model.predict_proba(df_batch_final)
                 
                 # Add predictions to dataframe
                 result_df = data.copy()
